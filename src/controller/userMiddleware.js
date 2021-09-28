@@ -1,5 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const fs = require('fs').promises;
+const path = require("path");
+const database = path.join(__dirname, "../", "config/db.json");
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -7,7 +10,6 @@ dotenv.config();
 const readFile = async () => {
     try {
         const data = await fs.readFile(database, 'utf8');
-        console.log('direct', data);
         return JSON.parse(data);
     } catch (error) {
         if(error){
@@ -15,7 +17,7 @@ const readFile = async () => {
         }
     }
 }
-const userAuthentication = async (req,res) => {
+const userAuthentication = async (req,res, next) => {
 
     if(req.headers.authorization){
 
@@ -26,10 +28,10 @@ const userAuthentication = async (req,res) => {
 
             const user = await readFile();
 
-            if(Object.keys(db).length !== 0) {
+            if(Object.keys(user).length !== 0) {
          
                 const currentUser = user.find(userD => userD.id === decodedToken.id);
-        
+                    
                 if(!currentUser){
         
                     return res.status(400).json('no token provided');
@@ -39,7 +41,7 @@ const userAuthentication = async (req,res) => {
             
         } catch (error) {
 
-            return res.status(400).json({'error':err});
+            return res.status(400).json({'error':error});
         }
     }else{
         return res.status(400).json('not Authorized');

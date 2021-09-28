@@ -29,7 +29,7 @@ const validateDepositInfo = (userInfo) => {
     const schema = Joi.object({
 
         email: Joi.string().email().required(),
-        amount: Joi.string().email().required(),
+        amount: Joi.number().precision(2).required(),
         
     });
 
