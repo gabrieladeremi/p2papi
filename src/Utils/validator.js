@@ -36,6 +36,7 @@ const validateDepositInfo = (userInfo) => {
     return schema.validate(userInfo);
 }
 
+
 module.exports = {
 
     validateUserInfo,

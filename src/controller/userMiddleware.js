@@ -13,7 +13,9 @@ const readFile = async () => {
         return JSON.parse(data);
     } catch (error) {
         if(error){
-            console.log(error);
+            await fs.writeFile(database, JSON.stringify([]));
+            const data = await fs.readFile(database, 'utf8');
+            return JSON.parse(data);
         }
     }
 }

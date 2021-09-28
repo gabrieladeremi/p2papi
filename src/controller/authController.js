@@ -10,14 +10,15 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-function idGen(data) {
+function idGenerator(data) {
 
     let idx = 0;
+    let len = data.length + 1;
 
     return {
         next: function() {
-            return idx < data.length ? 
-            { value: idx + 1, done: false } : 
+            return idx < len ? 
+            { value: len, done: false } : 
             { done: true };
         }
     }
@@ -27,11 +28,12 @@ function idGen(data) {
 const readFile = async () => {
     try {
         const data = await fs.readFile(database, 'utf8');
-        console.log('direct', data);
         return JSON.parse(data);
     } catch (error) {
         if(error){
-            console.log(error);
+            await fs.writeFile(database, JSON.stringify([]));
+            const data = await fs.readFile(database, 'utf8');
+            return JSON.parse(data);
         }
     }
 }
@@ -44,8 +46,6 @@ const signUp = async(req, res) => {
     if(Object.keys(db).length !== 0) {
          
         const checkFile = db.some(userD => userD.email === userData.email);
-
-        console.log('Checking file', checkFile);
 
         if(checkFile){
 
@@ -63,26 +63,23 @@ const signUp = async(req, res) => {
         return res.status(400).send('confirmPassword does not match password');
     }
 
-    let generator = idGen(db);
+    let generator = idGenerator(db);
 
     let id = generator.next().value;
 
     let data = {
-        'id': id,
-        'firstName':userData.firstName,
-        'lastName':userData.lastName,
-        'phone':userData.phone,
-        'address':userData.address,
-        'email':userData.email,
-        'password': await bcrypt.hash(userData.password, 12)
+        id: id,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        phone: userData.phone,
+        address: userData.address,
+        email: userData.email,
+        balance: '0.00',
+        password: await bcrypt.hash(userData.password, 12)
 
     };
-
-    // const file = await readFile();
      
     let saved = db.push(data);
-
-    console.log('save', saved);
     
     await fs.writeFile(database, JSON.stringify(db, null, 2), 'utf8');
     res.status(200).send(db);
@@ -116,14 +113,10 @@ const signIn = async(req, res) => {
             if(!validPassword) {
                 return res.status(400).send('Invalid credentials')
             }
-
-            let generator = idGen(savedUser);
-
-            let id = generator.next().value;
             
             const token = jwt.sign({
                 email: currentUser.email,
-                id: id
+                id: currentUser.id,
             }, process.env.JWT_SECRET_KEY, {expiresIn: "3h"});
 
             res.status(200).json({
