@@ -6,7 +6,7 @@
     "phone": "1234567890",
     "address": "57, Sambisa way, Boko Street",
     "email": "kizzyman@gmail.com",
-    "balance": "20.00",
+    "balance": "0.00",
     "password": "$2b$12$C8dancKhbAaCMxdXxJyKRe9Kq8NpnBqzZTQwABOY7bM7A3qzD.hD."
   },
   {
@@ -16,17 +16,7 @@
     "phone": "1234567890",
     "address": "57, Sambisa way, Boko Street",
     "email": "kizzy@gmail.com",
-    "balance": "15.00",
+    "balance": "30.00",
     "password": "$2b$12$/v0jAgfOlMRZC.xqfswnxeNT0pVv7fVktsQ.kD7Qa9EEciEX6mxgW"
-  },
-  {
-    "id": 3,
-    "firstName": "Mekus",
-    "lastName": "Gregory",
-    "phone": "1234567890",
-    "address": "57, Sambisa way, Boko Street",
-    "email": "kizz@gmail.com",
-    "balance": "5.00",
-    "password": "$2b$12$nY1LqTCWd8lrrBFQe/4nOehz5uD5c0sVzB80DxbNQ1DOoqz1S/WOK"
   }
 ]

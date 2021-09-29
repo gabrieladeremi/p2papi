@@ -57,7 +57,7 @@ const deposit = async (req, res, next) => {
 
         return res.status(200).json({
             'data': data.balance,
-            'message': `Your deposit of ${depositInfo.amount} was successfully`
+            'message': `Your deposit of $${depositInfo.amount} was successfully`
         });
     }
 

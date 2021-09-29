@@ -2,7 +2,6 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require("path");
 const database = path.join(__dirname, "../", "config/db.json");
-const {validateDepositInfo} = require('../Utils/validator');
 
 const readFile = async () => {
     try {
@@ -18,11 +17,11 @@ const readFile = async () => {
 }
 
 const balance = async (req, res) => {
-    let currentUser = req.user.id;
+    let currentUserId = req.user.id;
 
     let db = await readFile();
 
-    let user = db.find(data => data.id === currentUser);
+    let user = db.find(data => data.id === currentUserId);
 
     return res.status(200).json({
         'message': `Your Available balance is $${user.balance}`

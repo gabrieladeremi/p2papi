@@ -49,7 +49,7 @@ const signUp = async(req, res) => {
 
         if(checkFile){
 
-            return res.status(200).send({'message': 'user already exists'});
+            return res.status(400).send({'message': 'user already exists'});
         }
     }
 

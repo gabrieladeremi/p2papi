@@ -79,18 +79,14 @@ const transfer = async (req, res, next) => {
             await fs.writeFile(database, JSON.stringify(db, null, 2), 'utf8');
 
             return res.status(200).json({
-                'sender balance': data.balance,
-                'receiver balance': receiverData.balance,
+                'sender balance': `$${data.balance}`,
+                'receiver balance': `$${receiverData.balance}`,
                 'message': `Your transfer of $${amount} was successfully`
             });
     
         }
 
     }
-
-
-   
-
     
 }
 
